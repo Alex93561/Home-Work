@@ -4,29 +4,27 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] List<GameObject> _spawnPoints;
-    [SerializeField] GameObject _enemy;
+    [SerializeField] private Vector3 _direction;
+    [SerializeField] private List<GameObject> _spawnPoints;
+    [SerializeField] private Mover _enemy;
 
     private float _rechargeTime = 2f;
 
-
     private void Start()
     {
-        Coroutine createEnemyJob = StartCoroutine(CreateEnemy());
+        StartCoroutine(CreateEnemy());
     }
 
     private IEnumerator CreateEnemy()
     {
-        WaitForSeconds waitForRechargeTime = new WaitForSeconds(_rechargeTime);
+        WaitForSeconds waitForRechargeTime = new(_rechargeTime);
 
         while (true)
         {
             Transform tempTransform = _spawnPoints[Random.Range(0, _spawnPoints.Count)].transform;
-            Instantiate(_enemy, tempTransform.position, tempTransform.localRotation);
+            Instantiate(_enemy, tempTransform.position, Quaternion.identity).SetTarget(_direction);
 
             yield return waitForRechargeTime;
         }
     }
 }
-
-
