@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Vector3 _direction;
-    [SerializeField] private List<GameObject> _spawnPoints;
+    [SerializeField] private Collider _target;
     [SerializeField] private Mover _enemy;
 
     private float _rechargeTime = 2f;
@@ -21,8 +19,7 @@ public class Spawner : MonoBehaviour
 
         while (true)
         {
-            Transform tempTransform = _spawnPoints[Random.Range(0, _spawnPoints.Count)].transform;
-            Instantiate(_enemy, tempTransform.position, Quaternion.identity).SetTarget(_direction);
+            Instantiate(_enemy, gameObject.transform.position, _enemy.transform.rotation).SetTargetTransform(_target.transform);
 
             yield return waitForRechargeTime;
         }

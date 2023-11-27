@@ -1,18 +1,34 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Rigidbody))]
 public class Mover : MonoBehaviour
 {
-    [SerializeField] private float _speed;
+    [SerializeField] private float _speed = 1f;
 
-    private Vector3 _direction;
+    private Transform _targetTransform;
+    private Transform _transform;
+
+    private void Start()
+    {
+        _transform = GetComponent<Transform>();
+    }
 
     private void Update()
     {
-        gameObject.transform.position += _direction * _speed * Time.deltaTime;
+        _transform.LookAt(_targetTransform);
+        transform.position = Vector3.MoveTowards(transform.position,_targetTransform.position, _speed * Time.deltaTime);
     }
 
-    public void SetTarget(Vector3 target)
+    private void OnCollisionEnter(Collision collision)
     {
-        _direction = target;
+        if (collision.gameObject == _targetTransform.gameObject)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetTargetTransform(Transform targetTransform)
+    {
+        _targetTransform = targetTransform;
     }
 }
