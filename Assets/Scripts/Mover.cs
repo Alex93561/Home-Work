@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
 public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speed = 1f;
@@ -16,7 +16,7 @@ public class Mover : MonoBehaviour
     private void Update()
     {
         _transform.LookAt(_targetTransform);
-        transform.position = Vector3.MoveTowards(transform.position,_targetTransform.position, _speed * Time.deltaTime);
+        _transform.position = Vector3.MoveTowards(_transform.position, _targetTransform.position, _speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)

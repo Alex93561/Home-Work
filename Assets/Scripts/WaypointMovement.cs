@@ -25,11 +25,8 @@ public class WaypointMovement : MonoBehaviour
 
         transform.LookAt(target);
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.tag == "Point")
+        if (target.position == transform.position)
         {
             _currentPoint++;
 

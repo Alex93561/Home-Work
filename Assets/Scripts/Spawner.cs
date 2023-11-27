@@ -7,10 +7,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Mover _enemy;
 
     private float _rechargeTime = 2f;
+    private Coroutine _createEnemyJob;
 
     private void Start()
     {
-        StartCoroutine(CreateEnemy());
+        _createEnemyJob = StartCoroutine(CreateEnemy());
     }
 
     private IEnumerator CreateEnemy()
@@ -23,5 +24,10 @@ public class Spawner : MonoBehaviour
 
             yield return waitForRechargeTime;
         }
+    }
+
+    private void OnDestroy()
+    {
+        StopCoroutine(_createEnemyJob);
     }
 }
